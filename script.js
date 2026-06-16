@@ -155,6 +155,18 @@ async function mountResultView(targetStudentId, studentData, selectedTerm) {
   document.getElementById('lbl-stud-term').textContent    = formatTermLabel(selectedTerm);
   document.getElementById('lbl-current-date').textContent = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
+  // Populate student passport photo
+  const passportImg = document.getElementById('student-passport-img');
+  const passportPlaceholder = passportImg.nextElementSibling;
+  if (studentData.passportUrl) {
+    passportImg.src = studentData.passportUrl;
+    passportImg.style.display = 'block';
+    passportPlaceholder.style.display = 'none';
+  } else {
+    passportImg.style.display = 'none';
+    passportPlaceholder.style.display = 'flex';
+  }
+
   // Generate QR — use window.QRCode to access global from module scope
   const qrWrap = document.getElementById('student-card-qr-canvas');
   qrWrap.innerHTML = "";
