@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ADOS - Student Terminal Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= ACCESS CONSOLE GATEWAY ================= -->
+  <div id="student-auth-gate" class="student-auth-wrapper active">
+    <div class="student-login-card">
+      <div class="school-logo-icon"><i class="fas fa-graduation-cap"></i></div>
+      <h2>ADOS Student Portal</h2>
+      <p class="portal-tagline">Adiaha-Obong Group of Schools • Secure Result Access</p>
+
+      <form id="student-access-form">
+        <div class="input-element-row">
+          <label><i class="fas fa-id-card"></i> Student Registry ID</label>
+          <input type="text" id="student-login-id" required placeholder="e.g., ADOS-SS1-XXXX" autocomplete="off">
+        </div>
+        <div class="input-element-row">
+          <label><i class="fas fa-calendar-days"></i> Select Academic Term</label>
+          <select id="student-target-term" required>
+            <option value="" disabled selected>Choose target term...</option>
+            <option value="firstterm">1st Term Session</option>
+            <option value="secondterm">2nd Term Session</option>
+            <option value="thirdterm">3rd Term Session (Promotional)</option>
+          </select>
+        </div>
+        <div class="input-element-row">
+          <label><i class="fas fa-credit-card"></i> Scratchcard Serial PIN <span id="pin-optional-hint" style="font-size:0.7rem; color:#2A9D8F; display:none;"> — Not required (already verified)</span></label>
+          <input type="text" id="student-scratchcard-pin" placeholder="Enter Access Token PIN (first access only)" maxlength="16">
+        </div>
+        <button type="submit" class="btn-fetch-result">
+          <i class="fas fa-shield-halved"></i> Authenticate & View Result
+        </button>
+      </form>
+      <div class="brand-credits">Secured by Ludek Cyber Hub</div>
+    </div>
+  </div>
+
+  <!-- ================= LIVE RESULT WORKSPACE ================= -->
+  <div id="student-report-workspace" class="report-workspace-container">
+
+    <header class="workspace-action-navbar no-print">
+      <button class="btn-nav-back" id="btn-back-to-login">
+        <i class="fas fa-arrow-left"></i> Exit
+      </button>
+      <span class="navbar-title">Terminal Performance Report</span>
+      <button class="btn-nav-pdf" id="btn-trigger-pdf-print">
+        <i class="fas fa-file-pdf"></i> Download PDF
+      </button>
+    </header>
+
+    <div id="pdf-loading-overlay" class="pdf-loading-overlay" style="display:none;">
+      <div class="pdf-loading-card">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Generating PDF...</p>
+      </div>
+    </div>
+
+    <div class="paper-preview-scroll-wrapper">
+      <div class="report-card-paper" id="report-card-pdf-target">
+
+        <!-- QR Block -->
+        <div id="student-card-qr-block" class="report-qr-absolute-block">
+          <p style="font-size:0.55rem; text-align:center; margin-top:4px; color:#555;">Scan to Verify</p>
+        </div>
+
+        <!-- Letterhead -->
+        <div class="school-letterhead">
+          <h2>ADIAHA-OBONG GROUP OF SCHOOLS</h2>
+          <p class="school-address">Ikot Akpanobong, Mkpat Enin L.G.A, Akwa Ibom State, Nigeria</p>
+          <p class="school-motto">Knowledge, Discipline and Excellence</p>
+          <h3>OFFICIAL TERMINAL PERFORMANCE REPORT SHEET</h3>
+          <p class="report-term-label">Term: <span id="lbl-stud-term">—</span> &nbsp;|&nbsp; Session: <span>2025/2026</span></p>
+        </div>
+
+        <!-- Student Meta + QR row -->
+        <div class="meta-qr-row">
+          <table class="student-meta-mini-table">
+            <tr>
+              <td><strong>STUDENT NAME:</strong> <span id="lbl-stud-name">—</span></td>
+              <td><strong>CLASS:</strong> <span id="lbl-stud-class">—</span></td>
+            </tr>
+            <tr>
+              <td><strong>ADMISSION ID:</strong> <span id="lbl-stud-adm">—</span></td>
+              <td><strong>REGISTRY CODE:</strong> <span id="lbl-stud-login">—</span></td>
+            </tr>
+            <tr>
+              <td><strong>POSITION IN CLASS:</strong> <span id="lbl-stud-position">—</span></td>
+              <td><strong>NO. IN CLASS:</strong> <span id="lbl-stud-class-size">—</span></td>
+            </tr>
+          </table>
+          <div class="qr-code-block">
+            <div id="student-card-qr-canvas"></div>
+            <p style="font-size:0.6rem; text-align:center; margin-top:4px;">Scan to Verify</p>
+          </div>
+        </div>
+
+        <!-- Academic Scoresheet -->
+        <table class="report-preview-academic-scoresheet">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th style="text-align:center;">T1 (20)</th>
+              <th style="text-align:center;">T2 (20)</th>
+              <th style="text-align:center;">Exam (60)</th>
+              <th style="text-align:center;">Total (100)</th>
+              <th style="text-align:center;">Grade</th>
+              <th style="text-align:center;">Position</th>
+            </tr>
+          </thead>
+          <tbody id="student-academic-tbody"></tbody>
+          <tfoot>
+            <tr class="summary-tfoot-row">
+              <td colspan="4" style="text-align:right;"><strong>AGGREGATE TOTAL:</strong></td>
+              <td style="text-align:center;"><strong id="lbl-v-total">—</strong></td>
+              <td colspan="2"></td>
+            </tr>
+            <tr class="summary-tfoot-row">
+              <td colspan="4" style="text-align:right;"><strong>AVERAGE SCORE:</strong></td>
+              <td style="text-align:center;"><strong id="lbl-v-average">—</strong></td>
+              <td colspan="2"></td>
+            </tr>
+            <tr class="summary-tfoot-row">
+              <td colspan="4" style="text-align:right;"><strong>OVERALL POSITION:</strong></td>
+              <td style="text-align:center;"><strong id="lbl-v-position">—</strong></td>
+              <td colspan="2"></td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <!-- Behavioral + Remarks -->
+        <div class="preview-domains-and-remarks-wrapper">
+          <div>
+            <h4>Behavioral Rating Metrics</h4>
+            <p>Punctuality: <span id="lbl-v-punc">—</span>/5</p>
+            <p>Attendance: <span id="lbl-v-atten">—</span>/5</p>
+            <p>Attentiveness: <span id="lbl-v-active">—</span>/5</p>
+            <p>Neatness: <span id="lbl-v-neat">—</span>/5</p>
+          </div>
+          <div style="flex:1;">
+            <p><strong>Teacher's Comment:</strong> <em id="lbl-v-teacher-remark">—</em></p>
+            <p style="margin-top:8px;"><strong>Headmaster's Comment:</strong> <em id="lbl-v-headmaster-remark">—</em></p>
+          </div>
+        </div>
+
+        <!-- Announcement -->
+        <div class="announcement-block">
+          <strong>ANNOUNCEMENT / NOTICE:</strong>
+          <p id="lbl-v-announcement">—</p>
+        </div>
+
+        <!-- Stamps + Signatures + Date -->
+        <div class="official-stamps-line-row">
+          <div class="stamp-box">
+            <div class="stamp-circle verified">ADOS<br>VALIDATED<br>✓</div>
+            <p style="font-size:0.65rem; margin-top:4px; text-align:center;">Principal's Stamp</p>
+          </div>
+          <div class="signatures-block">
+            <div class="sig-line">
+              <div class="sig-img-block" id="sig-display-teacher">
+                <div class="sig-placeholder">_______________________</div>
+              </div>
+              <p><strong id="lbl-footer-teacher">Class Teacher</strong></p>
+              <p class="sig-label">Form Teacher's Signature</p>
+            </div>
+            <div class="sig-line">
+              <div class="sig-img-block" id="sig-display-manager">
+                <div class="sig-placeholder">_______________________</div>
+              </div>
+              <p><strong id="lbl-footer-manager">School Manager / Principal</strong></p>
+              <p class="sig-label">Management Signature</p>
+            </div>
+          </div>
+          <div class="date-box">
+            <p><strong>Date Issued:</strong> <span id="lbl-current-date">—</span></p>
+            <p style="font-size:0.65rem; margin-top:4px; color:#555;">Next Term Begins:</p>
+            <p id="lbl-next-term" style="font-size:0.7rem; font-weight:600;">—</p>
+          </div>
+        </div>
+
+      </div><!-- /report-card-paper -->
+    </div><!-- /scroll-wrapper -->
+  </div><!-- /workspace -->
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
