@@ -367,8 +367,30 @@ async function handlePdfDownload() {
   btn.disabled = true;
   overlay.style.display = 'flex';
 
+  // ── Fix 1: Snapshot QR canvas → data URL BEFORE cloning ──
+  // html2canvas cannot re-render a cloned <canvas> — it only captures the
+  // original DOM canvas pixels. We convert it to an <img> in the clone.
+  const qrCanvasEl = document.querySelector('#student-card-qr-canvas canvas');
+  let qrDataUrl = null;
+  if (qrCanvasEl) {
+    try { qrDataUrl = qrCanvasEl.toDataURL('image/png'); } catch (_) {}
+  }
+
   // Clone paper out of the scrollable wrapper to escape overflow clipping
   const clone = paper.cloneNode(true);
+
+  // ── Fix 1 continued: replace cloned <canvas> with <img> using snapshot ──
+  if (qrDataUrl) {
+    const clonedQrWrap = clone.querySelector('#student-card-qr-canvas');
+    if (clonedQrWrap) {
+      clonedQrWrap.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = qrDataUrl;
+      img.style.cssText = 'width:80px;height:80px;display:block;';
+      clonedQrWrap.appendChild(img);
+    }
+  }
+
   const tempWrap = document.createElement('div');
   tempWrap.style.cssText = `
     position: fixed;
@@ -401,35 +423,32 @@ async function handlePdfDownload() {
       logging: false
     });
 
-    const A4_W = 210;
-    const A4_H = 297;
-    const imgW = A4_W;
-    const imgH = (canvas.height * A4_W) / canvas.width;
+    // ── Fix 2: Always fit everything into exactly ONE A4 page ──
+    const A4_W = 210; // mm
+    const A4_H = 297; // mm
 
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-    let yOffset   = 0;
-    let remaining = imgH;
+    // Scale image to fill A4 width, then scale height proportionally.
+    // If the proportional height exceeds A4, scale down further so it fits
+    // within both dimensions (the content is always fully visible on one page).
+    const ratioW = A4_W / canvas.width;
+    const ratioH = A4_H / canvas.height;
+    const scale  = Math.min(ratioW, ratioH); // use the smaller ratio to fit both axes
 
-    while (remaining > 0) {
-      const sliceH = Math.min(A4_H, remaining);
-      const srcY   = yOffset  * (canvas.height / imgH);
-      const srcH   = sliceH   * (canvas.height / imgH);
+    const drawW = canvas.width  * scale;
+    const drawH = canvas.height * scale;
 
-      const pageCanvas  = document.createElement('canvas');
-      pageCanvas.width  = canvas.width;
-      pageCanvas.height = Math.round(srcH);
-      pageCanvas.getContext('2d').drawImage(
-        canvas, 0, Math.round(srcY), canvas.width, Math.round(srcH),
-        0, 0, canvas.width, Math.round(srcH)
-      );
+    // Center horizontally & vertically on the page
+    const offsetX = (A4_W - drawW) / 2;
+    const offsetY = (A4_H - drawH) / 2;
 
-      if (yOffset > 0) pdf.addPage();
-      pdf.addImage(pageCanvas.toDataURL('image/jpeg', 0.97), 'JPEG', 0, 0, imgW, sliceH);
-
-      yOffset   += sliceH;
-      remaining -= sliceH;
-    }
+    pdf.addImage(
+      canvas.toDataURL('image/jpeg', 0.97),
+      'JPEG',
+      offsetX, offsetY,
+      drawW, drawH
+    );
 
     const nameEl = document.getElementById('lbl-stud-name').textContent.replace(/\s+/g, '_');
     const termEl = document.getElementById('lbl-stud-term').textContent.replace(/\s+/g, '_');
