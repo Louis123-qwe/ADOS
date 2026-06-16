@@ -5,8 +5,8 @@
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0A1C14",
-  "theme_color": "#0A1C14",
+  "background_color": "#050D1A",
+  "theme_color": "#050D1A",
   "icons": [
     {
       "src": "/ados.png",
