@@ -1,0 +1,25 @@
+{
+  "name": "ADOS Student Portal",
+  "short_name": "ADOS",
+  "description": "Adiaha-Obong Group of Schools — Secure Student Result Access",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A1C14",
+  "theme_color": "#0A1C14",
+  "icons": [
+    {
+      "src": "/ados.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/ados.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
+
