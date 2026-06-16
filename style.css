@@ -6,13 +6,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
 :root {
+:root {
   /* ── UI shell — Marian blue palette ── */
-  --color-dark:         #050D1A;
-  --color-surface:      #0A1628;
-  --color-elevated:     #0F2040;
-  --color-muted:        #5A7FAA;
-  --color-faded:        rgba(10, 22, 40, 0.55);
-  --border-line:        rgba(255, 255, 255, 0.07);
+  --color-dark:         #030D1A;
+  --color-surface:      #071A2E;
+  --color-elevated:     #0D2640;
+  --color-muted:        #5A9FCC;
+  --color-faded:        rgba(7, 26, 46, 0.55);
+  --border-line:        rgba(255, 255, 255, 0.08);
 
   /* ── Accent — Marian gold/yellow ── */
   --color-gold:         #F5C518;
@@ -21,19 +22,19 @@
   --color-gold-border:  rgba(245, 197, 24, 0.25);
 
   /* ── Text ── */
-  --color-text-pure:    #F0F4FF;
-  --color-text-cream:   #C8D6F0;
+  --color-text-pure:    #E8F4FF;
+  --color-text-cream:   #B8D4F0;
 
   /* ── System ── */
   --color-success:      #2A9D8F;
   --color-danger:       #E63946;
 
-  /* ── Paper side — Marian blue accents ── */
-  --paper-blue-header:  #0A2240;
-  --paper-blue-th:      #deeaf8;
-  --paper-blue-stripe:  #f0f6fc;
-  --paper-blue-accent:  #1a4f8a;
-  --paper-blue-faded:   rgba(10, 34, 64, 0.05);
+  /* ── Paper side — sky blue accents ── */
+  --paper-blue-header:  #0047AB;
+  --paper-blue-th:      #D6EEFF;
+  --paper-blue-stripe:  #EEF7FF;
+  --paper-blue-accent:  #1A8FD1;
+  --paper-blue-faded:   rgba(0, 71, 171, 0.04);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -47,7 +48,7 @@ body { background-color: var(--color-dark); color: var(--color-text-pure); min-h
   width: 100vw; height: 100vh;
   background: var(--color-dark);
   background-image:
-    radial-gradient(ellipse at 20% 20%, rgba(26,79,138,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 20%, rgba(26,143,209,0.18) 0%, transparent 60%),
     radial-gradient(ellipse at 80% 80%, rgba(245,197,24,0.06) 0%, transparent 60%);
   align-items: center; justify-content: center;
   padding: 16px; z-index: 1000;
