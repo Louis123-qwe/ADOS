@@ -1,35 +1,43 @@
 /* =========================================================================
    ADIAHA-OBONG GROUP OF SCHOOLS — STUDENT TERMINAL PORTAL
-   Design: matches staff portal report card template exactly
-   Forest green accents throughout
+   Theme: Marian Blue & Gold/Yellow
    ========================================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  --color-forest-dark:    #0A1C14;
-  --color-forest-surface: #122A1E;
-  --color-forest-elevated:#1B3B2B;
-  --color-forest-muted:   #648B75;
-  --color-forest-faded:   rgba(18, 42, 30, 0.55);
-  --color-orange-primary: #F26419;
-  --color-orange-hover:   #D64F0E;
-  --color-milk-pure:      #F7F5F0;
-  --color-milk-cream:     #EADFC9;
-  --color-system-success: #2A9D8F;
-  --color-system-danger:  #E63946;
-  --border-line: rgba(247, 245, 240, 0.08);
+  /* ── UI shell — Marian blue palette ── */
+  --color-dark:         #050D1A;
+  --color-surface:      #0A1628;
+  --color-elevated:     #0F2040;
+  --color-muted:        #5A7FAA;
+  --color-faded:        rgba(10, 22, 40, 0.55);
+  --border-line:        rgba(255, 255, 255, 0.07);
 
-  /* Paper-side forest green */
-  --paper-forest-header:  #052e16;
-  --paper-forest-th:      #e8f2ec;
-  --paper-forest-stripe:  #f2f8f4;
-  --paper-forest-accent:  #1a5c35;
-  --paper-forest-faded:   rgba(5, 46, 22, 0.06);
+  /* ── Accent — Marian gold/yellow ── */
+  --color-gold:         #F5C518;
+  --color-gold-hover:   #D4A80E;
+  --color-gold-soft:    rgba(245, 197, 24, 0.12);
+  --color-gold-border:  rgba(245, 197, 24, 0.25);
+
+  /* ── Text ── */
+  --color-text-pure:    #F0F4FF;
+  --color-text-cream:   #C8D6F0;
+
+  /* ── System ── */
+  --color-success:      #2A9D8F;
+  --color-danger:       #E63946;
+
+  /* ── Paper side — Marian blue accents ── */
+  --paper-blue-header:  #0A2240;
+  --paper-blue-th:      #deeaf8;
+  --paper-blue-stripe:  #f0f6fc;
+  --paper-blue-accent:  #1a4f8a;
+  --paper-blue-faded:   rgba(10, 34, 64, 0.05);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-body { background-color: var(--color-forest-dark); color: var(--color-milk-pure); min-height: 100vh; overflow-x: hidden; }
+body { background-color: var(--color-dark); color: var(--color-text-pure); min-height: 100vh; overflow-x: hidden; }
 
 /* =====================================================================
    LOGIN GATE
@@ -37,40 +45,54 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
 .student-auth-wrapper {
   display: none; position: fixed; top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background: var(--color-forest-dark);
+  background: var(--color-dark);
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(26,79,138,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(245,197,24,0.06) 0%, transparent 60%);
   align-items: center; justify-content: center;
   padding: 16px; z-index: 1000;
 }
 .student-auth-wrapper.active { display: flex; }
 
 .student-login-card {
-  background: var(--color-forest-surface);
+  background: var(--color-surface);
   border: 1px solid var(--border-line);
   border-radius: 16px;
   width: 100%; max-width: 420px;
   padding: 32px 24px;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(100,139,117,0.08);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(26,79,138,0.12);
 }
 
+/* School logo image replacing the icon */
 .school-logo-icon {
-  width: 68px; height: 68px;
-  background: rgba(242,100,25,0.12);
-  border: 1px solid rgba(242,100,25,0.2);
-  color: var(--color-orange-primary);
+  width: 90px; height: 90px;
   border-radius: 50%;
+  border: 2px solid var(--color-gold-border);
+  box-shadow: 0 0 0 4px rgba(245,197,24,0.08);
+  overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.9rem;
   margin: 0 auto 16px;
+  background: var(--color-elevated);
 }
-.student-login-card h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: 4px; }
-.portal-tagline { font-size: 0.75rem; color: var(--color-forest-muted); margin-bottom: 26px; }
+.school-logo-icon img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+/* Fallback icon if no image */
+.school-logo-icon i {
+  font-size: 2rem;
+  color: var(--color-gold);
+}
+
+.student-login-card h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: 4px; color: var(--color-text-pure); }
+.portal-tagline { font-size: 0.75rem; color: var(--color-muted); margin-bottom: 26px; }
 
 .input-element-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; text-align: left; }
-.input-element-row label { font-size: 0.78rem; font-weight: 600; color: var(--color-milk-cream); }
+.input-element-row label { font-size: 0.78rem; font-weight: 600; color: var(--color-text-cream); }
 .input-element-row input,
 .input-element-row select {
-  background: var(--color-forest-dark);
+  background: var(--color-dark);
   border: 1px solid var(--border-line);
   color: #fff; padding: 12px;
   border-radius: 8px; outline: none;
@@ -78,20 +100,22 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
   transition: border-color 0.2s;
 }
 .input-element-row input:focus,
-.input-element-row select:focus { border-color: var(--color-orange-primary); }
+.input-element-row select:focus { border-color: var(--color-gold); }
+.input-element-row select option { background: var(--color-surface); }
 
 .btn-fetch-result {
-  background: var(--color-orange-primary);
-  color: #fff; border: none;
+  background: var(--color-gold);
+  color: #0A1628; border: none;
   width: 100%; padding: 14px;
-  border-radius: 8px; font-weight: 700;
+  border-radius: 8px; font-weight: 800;
   cursor: pointer; font-size: 0.9rem;
   margin-top: 10px;
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.1s;
 }
-.btn-fetch-result:hover { background: var(--color-orange-hover); }
-.brand-credits { font-size: 0.62rem; color: var(--color-forest-muted); margin-top: 24px; text-transform: uppercase; letter-spacing: 0.8px; }
+.btn-fetch-result:hover { background: var(--color-gold-hover); }
+.btn-fetch-result:active { transform: scale(0.98); }
+.brand-credits { font-size: 0.62rem; color: var(--color-muted); margin-top: 24px; text-transform: uppercase; letter-spacing: 0.8px; }
 
 /* =====================================================================
    WORKSPACE
@@ -100,7 +124,7 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
 .report-workspace-container.active { display: flex; }
 
 .workspace-action-navbar {
-  background: var(--color-forest-surface);
+  background: var(--color-surface);
   border-bottom: 1px solid var(--border-line);
   padding: 12px 20px;
   display: flex; justify-content: space-between; align-items: center;
@@ -109,49 +133,49 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
 }
 .navbar-title {
   font-size: 0.85rem; font-weight: 700;
-  color: var(--color-milk-cream);
+  color: var(--color-text-cream);
   flex: 1; text-align: center;
 }
 .btn-nav-back {
   background: transparent;
   border: 1px solid var(--border-line);
-  color: var(--color-milk-pure);
+  color: var(--color-text-pure);
   padding: 8px 14px; border-radius: 6px;
   cursor: pointer; font-size: 0.8rem;
   display: flex; align-items: center; gap: 6px;
   white-space: nowrap;
   transition: border-color 0.2s;
 }
-.btn-nav-back:hover { border-color: var(--color-forest-muted); }
+.btn-nav-back:hover { border-color: var(--color-muted); }
 .btn-nav-pdf {
-  background: var(--color-orange-primary);
-  border: none; color: #fff;
+  background: var(--color-gold);
+  border: none; color: #0A1628;
   padding: 10px 16px; border-radius: 6px;
-  cursor: pointer; font-size: 0.8rem; font-weight: 700;
+  cursor: pointer; font-size: 0.8rem; font-weight: 800;
   display: flex; align-items: center; gap: 6px;
   white-space: nowrap;
   transition: background 0.2s;
 }
-.btn-nav-pdf:hover { background: var(--color-orange-hover); }
+.btn-nav-pdf:hover { background: var(--color-gold-hover); }
 .btn-nav-pdf:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /* PDF loading overlay */
 .pdf-loading-overlay {
   position: fixed; inset: 0;
-  background: rgba(10,28,20,0.85);
+  background: rgba(5,13,26,0.88);
   z-index: 9999;
   display: flex; align-items: center; justify-content: center;
 }
 .pdf-loading-card {
-  background: var(--color-forest-surface);
+  background: var(--color-surface);
   border: 1px solid var(--border-line);
   border-radius: 12px;
   padding: 32px 48px;
   text-align: center;
   display: flex; flex-direction: column; align-items: center; gap: 14px;
 }
-.pdf-loading-card i { font-size: 2rem; color: var(--color-orange-primary); }
-.pdf-loading-card p { font-size: 0.9rem; color: var(--color-milk-cream); font-weight: 600; }
+.pdf-loading-card i { font-size: 2rem; color: var(--color-gold); }
+.pdf-loading-card p { font-size: 0.9rem; color: var(--color-text-cream); font-weight: 600; }
 
 .paper-preview-scroll-wrapper {
   flex: 1; padding: 20px 12px;
@@ -159,11 +183,11 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
   overflow-y: auto;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  background: #060E09;
+  background: #02060F;
 }
 
 /* =====================================================================
-   REPORT CARD PAPER — exact staff portal template + forest green touches
+   REPORT CARD PAPER — Marian blue accents on white paper
    ===================================================================== */
 .report-card-paper {
   background: #ffffff;
@@ -175,34 +199,33 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
   position: relative;
   box-shadow: 0 10px 40px rgba(0,0,0,0.4);
   align-self: flex-start;
-  /* Subtle forest green watermark tint on paper */
-  background-image: linear-gradient(135deg, rgba(5,46,22,0.025) 0%, transparent 60%);
+  background-image: linear-gradient(135deg, rgba(10,34,64,0.025) 0%, transparent 60%);
 }
 
 /* — Letterhead — */
 .school-letterhead {
   text-align: center;
-  border-bottom: 3px double var(--paper-forest-accent);
+  border-bottom: 3px double var(--paper-blue-accent);
   padding-bottom: 10px;
   margin-bottom: 14px;
-  background: linear-gradient(180deg, var(--paper-forest-faded) 0%, transparent 100%);
+  background: linear-gradient(180deg, var(--paper-blue-faded) 0%, transparent 100%);
   padding-top: 8px;
 }
 .school-letterhead h2 {
   font-size: 1.4rem; font-weight: 900;
-  color: var(--paper-forest-header);
+  color: var(--paper-blue-header);
   letter-spacing: 0.5px;
 }
 .school-address { font-size: 0.75rem; color: #333; margin: 2px 0; }
-.school-motto { font-size: 0.7rem; color: var(--paper-forest-accent); font-style: italic; margin-bottom: 4px; }
+.school-motto { font-size: 0.7rem; color: var(--paper-blue-accent); font-style: italic; margin-bottom: 4px; }
 .school-letterhead h3 {
   font-size: 0.85rem; font-weight: 700;
-  background: var(--paper-forest-th);
-  color: var(--paper-forest-header);
+  background: var(--paper-blue-th);
+  color: var(--paper-blue-header);
   display: inline-block;
   padding: 3px 14px; margin-top: 8px;
   border-radius: 4px;
-  border: 1px solid rgba(26,92,53,0.2);
+  border: 1px solid rgba(26,79,138,0.2);
 }
 .report-term-label { font-size: 0.75rem; font-weight: 600; margin-top: 5px; color: #222; }
 
@@ -220,12 +243,12 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
 .report-preview-academic-scoresheet th,
 .report-preview-academic-scoresheet td { border: 1px solid #000; padding: 6px 8px; font-size: 0.78rem; color: #000; }
 .report-preview-academic-scoresheet th {
-  background: var(--paper-forest-th);
-  color: var(--paper-forest-header);
+  background: var(--paper-blue-th);
+  color: var(--paper-blue-header);
   text-transform: uppercase; font-weight: 700;
 }
 .report-preview-academic-scoresheet tbody tr:nth-child(even) td {
-  background: var(--paper-forest-stripe);
+  background: var(--paper-blue-stripe);
 }
 
 .summary-tfoot-row td { border: 1px solid #000; padding: 5px 8px; font-size: 0.8rem; background: #f9f9f9; }
@@ -236,13 +259,13 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
   border: 1px solid #000;
   padding: 10px;
   margin-bottom: 14px;
-  background: var(--paper-forest-faded);
+  background: var(--paper-blue-faded);
 }
 .preview-domains-and-remarks-wrapper h4 {
   font-size: 0.75rem; text-transform: uppercase;
-  border-bottom: 1px solid var(--paper-forest-accent);
+  border-bottom: 1px solid var(--paper-blue-accent);
   margin-bottom: 6px; padding-bottom: 3px;
-  color: var(--paper-forest-header);
+  color: var(--paper-blue-header);
 }
 .preview-domains-and-remarks-wrapper p { font-size: 0.75rem; line-height: 1.6; color: #000; }
 
@@ -253,9 +276,9 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
   margin-bottom: 16px;
   font-size: 0.78rem;
   background: #fffbe6;
-  border-left: 4px solid var(--paper-forest-accent);
+  border-left: 4px solid var(--paper-blue-accent);
 }
-.announcement-block strong { display: block; margin-bottom: 4px; font-size: 0.75rem; color: var(--paper-forest-header); }
+.announcement-block strong { display: block; margin-bottom: 4px; font-size: 0.75rem; color: var(--paper-blue-header); }
 
 /* — Stamps & Signatures row — */
 .official-stamps-line-row {
@@ -263,7 +286,6 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
   align-items: flex-start; margin-top: 20px; gap: 10px;
 }
 
-/* Square stamp (matches staff portal) */
 .stamp-circle {
   width: 62px; height: 62px;
   border: 5px solid #E63946;
@@ -272,7 +294,6 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
   display: flex; align-items: center; text-align: center; justify-content: center;
   font-size: 0.52rem; font-weight: 900; line-height: 1.3;
   transform: rotate(-15deg);
-  opacity: 1;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   box-shadow: inset 0 0 0 2px #E63946;
@@ -282,7 +303,6 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
 .sig-line { text-align: center; font-size: 0.72rem; }
 .sig-label { color: #555; font-size: 0.65rem; margin-top: 2px; }
 
-/* Signature image display (read-only for student — shows saved image or placeholder) */
 .sig-img-block {
   width: 140px; height: 48px;
   display: flex; align-items: center; justify-content: center;
@@ -293,7 +313,7 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
 
 .date-box p { font-size: 0.75rem; color: #000; }
 
-/* Report QR block (legacy absolute — hidden, using meta-qr-row now) */
+/* Legacy QR block — hidden */
 .report-qr-absolute-block { display: none; }
 
 /* =====================================================================
@@ -313,20 +333,18 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
 }
 
 /* =====================================================================
-   RESPONSIVE — paper scrolls horizontally, never reflows or breaks
+   RESPONSIVE
    ===================================================================== */
 @media (max-width: 860px) {
   .navbar-title { font-size: 0.75rem; }
   .btn-nav-back, .btn-nav-pdf { padding: 8px 10px; font-size: 0.75rem; }
 
-  /* Scroll track starts from left edge so the full paper is reachable */
   .paper-preview-scroll-wrapper {
     padding: 12px 0;
     justify-content: flex-start;
     align-items: flex-start;
   }
 
-  /* Paper locks at a minimum width — it scrolls, never squishes */
   .report-card-paper {
     min-width: 680px;
     width: 680px;
@@ -336,7 +354,6 @@ body { background-color: var(--color-forest-dark); color: var(--color-milk-pure)
 }
 
 @media (max-width: 480px) {
-  /* Hide text labels that crowd the navbar on tiny screens */
   .navbar-title { display: none; }
   .btn-nav-back { padding: 8px 10px; }
 }
