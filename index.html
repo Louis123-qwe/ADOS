@@ -85,15 +85,28 @@
 
         <!-- Letterhead -->
         <div class="school-letterhead">
-          <h2>ADIAHA-OBONG GROUP OF SCHOOLS</h2>
-          <p class="school-address">Ikot Akpanobong, Mkpat Enin L.G.A, Akwa Ibom State, Nigeria</p>
-          <p class="school-motto">Knowledge, Discipline and Excellence</p>
+          <div class="letterhead-logo-row">
+            <img src="ados.png" alt="ADOS Logo" class="letterhead-logo">
+            <div class="letterhead-text">
+              <h2>ADIAHA-OBONG GROUP OF SCHOOLS</h2>
+              <p class="school-address">Ikot Akpanobong, Mkpat Enin L.G.A, Akwa Ibom State, Nigeria</p>
+              <p class="school-motto">Knowledge, Discipline and Excellence</p>
+            </div>
+            <img src="ados.png" alt="ADOS Logo" class="letterhead-logo">
+          </div>
           <h3>OFFICIAL TERMINAL PERFORMANCE REPORT SHEET</h3>
           <p class="report-term-label">Term: <span id="lbl-stud-term">—</span> &nbsp;|&nbsp; Session: <span>2025/2026</span></p>
         </div>
 
-        <!-- Student Meta + QR row -->
+        <!-- Student Meta + Passport + QR row -->
         <div class="meta-qr-row">
+          <div class="student-passport-block">
+            <img id="student-passport-img" src="" alt="Student Passport" class="student-passport-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="student-passport-placeholder">
+              <i class="fas fa-user"></i>
+              <span>Passport</span>
+            </div>
+          </div>
           <table class="student-meta-mini-table">
             <tr>
               <td><strong>STUDENT NAME:</strong> <span id="lbl-stud-name">—</span></td>
