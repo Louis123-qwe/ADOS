@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ados-portal-v1';
+const CACHE_NAME = 'ados-portal-v2';
 
 const STATIC_ASSETS = [
   '/',
