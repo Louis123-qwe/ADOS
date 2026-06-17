@@ -263,6 +263,7 @@ body { background-color: var(--color-dark); color: var(--color-text-pure); min-h
   font-size: 0.6rem; text-align: center;
 }
 .student-passport-placeholder i { font-size: 1.6rem; color: #ccc; }
+.meta-qr-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
 .meta-qr-row .student-meta-mini-table { flex: 1; }
 .qr-code-block { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
 .qr-code-block canvas, .qr-code-block img { width: 80px !important; height: 80px !important; }
