@@ -210,7 +210,7 @@ function getOrdinal(n) {
 // ─── COMPILE REPORT DATA ──────────────────────────────────────────────────────
 async function compileReportCardData(studentDocId, targetClass, targetTerm, studentData) {
   const tbody = document.getElementById('student-academic-tbody');
-  tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:16px;color:#666;">
+  tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:16px;color:#666;">
     <i class="fas fa-spinner fa-spin"></i> Loading results...
   </td></tr>`;
 
@@ -224,7 +224,7 @@ async function compileReportCardData(studentDocId, targetClass, targetTerm, stud
     allIds.map(sid => getDocs(collection(db, "students", sid, "grades")))
   );
 
-  // Build grades cache: { studentId: { subjectName: {test1,test2,exam,total} } }
+  // Build grades cache: { studentId: { subjectName: {test1,test2,test3,exam,total} } }
   const gradesCache = {};
   allIds.forEach((sid, i) => {
     gradesCache[sid] = {};
@@ -240,7 +240,7 @@ async function compileReportCardData(studentDocId, targetClass, targetTerm, stud
   tbody.innerHTML = "";
 
   if (mySubjects.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:20px;color:#666;">
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:20px;color:#666;">
       No academic grades recorded for this term.
     </td></tr>`;
     document.getElementById('lbl-v-total').textContent    = "—";
@@ -292,6 +292,7 @@ async function compileReportCardData(studentDocId, targetClass, targetTerm, stud
       <td><strong>${subName}</strong></td>
       <td style="text-align:center;">${g.test1 ?? "—"}</td>
       <td style="text-align:center;">${g.test2 ?? "—"}</td>
+      <td style="text-align:center;">${g.test3 ?? "—"}</td>
       <td style="text-align:center;">${g.exam ?? "—"}</td>
       <td style="text-align:center;"><strong>${total}</strong></td>
       <td><strong>${grade}</strong></td>
